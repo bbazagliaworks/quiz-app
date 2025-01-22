@@ -1,0 +1,32 @@
+services:
+  server:
+    build: ./api
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    develop:
+      watch:
+        - action: rebuild
+          path: ./api
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://db:5432/quizapp
+  db:
+    image: postgres:17
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=quizapp
+      - POSTGRES_USER=quizapp
+      - POSTGRES_PASSWORD=quizapp
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "quizapp"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  db-data:
