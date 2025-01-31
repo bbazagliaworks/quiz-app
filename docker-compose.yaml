@@ -12,6 +12,7 @@ services:
           path: ./api
     environment:
       - POSTGRES_URL=jdbc:postgresql://db:5432/quizapp
+
   db:
     image: postgres:17
     restart: always
