@@ -16,13 +16,16 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer ownerId;
+    @Column(name = "owner_id")
+    private Long ownerId;
 
     private String title;
 
     private String description;
 
+    @Column(name = "is_active")
     private Boolean isActive = true;
 
+    @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 }

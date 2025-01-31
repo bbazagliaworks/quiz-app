@@ -3,28 +3,28 @@ package com.thoughtworks.quizapp.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "users")
+// @Entity
+// @Table(name = "questions")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Question {
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    // @Column(name = "quiz_id")
+    private Long quizId;
 
-    private String email;
+    private String type;
 
-    @Column(name = "password_hash")
-    private String passwordHash;
+    private String content;
 
-    @Column(name = "created_at")
+    // @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 }

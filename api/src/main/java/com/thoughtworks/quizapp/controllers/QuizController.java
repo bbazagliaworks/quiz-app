@@ -10,12 +10,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/quiz")
 public class QuizController {
+
     @Autowired
     private QuizService quizService;
 
     @PostMapping
     public Quiz createQuiz(@RequestBody Quiz quiz) {
         return quizService.createQuiz(quiz);
+    }
+
+    @PostMapping("/update")
+    public Quiz updateQuiz(@RequestBody Quiz quiz) {
+        return quizService.updateQuiz(quiz.getId(), quiz);
+    }
+
+    @GetMapping("/{id}")
+    public Quiz getQuizById(@PathVariable long id) {
+        return quizService.getQuizById(id);
     }
 
     @GetMapping

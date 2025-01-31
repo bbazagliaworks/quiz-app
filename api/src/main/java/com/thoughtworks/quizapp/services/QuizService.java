@@ -30,7 +30,9 @@ public class QuizService {
             return null;
         }
         existingQuiz.setTitle(quiz.getTitle());
-        existingQuiz.setOwnerId(quiz.getOwnerId());
+        existingQuiz.setDescription(quiz.getDescription());
+        existingQuiz.setIsActive(quiz.getIsActive());
+
         return quizRepository.save(existingQuiz);
     }
 
