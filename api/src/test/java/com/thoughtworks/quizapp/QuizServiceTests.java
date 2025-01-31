@@ -9,9 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 public class QuizServiceTests {
@@ -36,4 +36,68 @@ public class QuizServiceTests {
         assertThat(createdQuiz.getTitle()).isEqualTo("Sample Quiz");
         assertThat(createdQuiz.getOwnerId()).isEqualTo(1);
     }
+
+    @Test
+    void ShouldGetQuizById() {
+        Quiz quiz = new Quiz();
+        quiz.setOwnerId(1);
+        quiz.setTitle("Sample Quiz");
+
+        when(quizRepository.findById(1L)).thenReturn(java.util.Optional.of(quiz));
+
+        Quiz foundQuiz = quizService.getQuizById(1);
+
+        assertThat(foundQuiz).isNotNull();
+        assertThat(foundQuiz.getTitle()).isEqualTo("Sample Quiz");
+        assertThat(foundQuiz.getOwnerId()).isEqualTo(1);
+    }
+
+    @Test
+    void ShouldReturnNullIfQuizNotFound() {
+        when(quizRepository.findById(1L)).thenReturn(java.util.Optional.empty());
+
+        Quiz foundQuiz = quizService.getQuizById(1);
+
+        assertThat(foundQuiz).isNull();
+    }
+
+    @Test
+    void ShouldGetAllQuizzes() {
+        Quiz quiz1 = new Quiz();
+        quiz1.setOwnerId(1);
+        quiz1.setTitle("Sample Quiz 1");
+
+        Quiz quiz2 = new Quiz();
+        quiz2.setOwnerId(1);
+        quiz2.setTitle("Sample Quiz 2");
+
+        when(quizRepository.findAll()).thenReturn(java.util.List.of(quiz1, quiz2));
+
+        assertThat(quizService.getAllQuizzes()).hasSize(2);
+    }
+
+    @Test
+    void ShouldReturnNullIfNoQuizzesExist() {
+        when(quizRepository.findAll()).thenReturn(java.util.List.of());
+
+        assertThat(quizService.getAllQuizzes()).isEmpty();
+    }
+
+    @Test
+    void ShouldUpdateQuiz() {
+        Quiz quiz = new Quiz();
+        quiz.setOwnerId(1);
+        quiz.setTitle("Updated Quiz");
+
+        when(quizRepository.findById(1L)).thenReturn(java.util.Optional.of(quiz));
+        when(quizRepository.save(any(Quiz.class))).thenReturn(quiz);
+
+        Quiz updatedQuiz = quizService.updateQuiz(1, quiz);
+
+        assertThat(updatedQuiz).isNotNull();
+        assertThat(updatedQuiz.getTitle()).isEqualTo("Updated Quiz");
+        assertThat(updatedQuiz.getOwnerId()).isEqualTo(1);
+    }
+
+
 }

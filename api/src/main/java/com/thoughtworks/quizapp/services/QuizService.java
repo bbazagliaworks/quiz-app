@@ -19,4 +19,19 @@ public class QuizService {
     public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
+
+    public Quiz getQuizById(long id) {
+        return quizRepository.findById(id).orElse(null);
+    }
+
+    public Quiz updateQuiz(long id, Quiz quiz) {
+        Quiz existingQuiz = quizRepository.findById(id).orElse(null);
+        if (existingQuiz == null) {
+            return null;
+        }
+        existingQuiz.setTitle(quiz.getTitle());
+        existingQuiz.setOwnerId(quiz.getOwnerId());
+        return quizRepository.save(existingQuiz);
+    }
+
 }
